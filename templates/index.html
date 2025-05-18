@@ -10,14 +10,17 @@
     }
 </style>
 <body>
-    {% if not operation_completed %}
+
     <form method="post">
         <label for="url">link:</label><br>
         <input type="text" id="url" name="url"><br>
         <input type="submit" value="Submit">
     </form>
+    {% if operation_completed %}
+    <p>Shortened link: <a href='{{ new_short_url }}' target="_blank">{{ new_short_url }}</a></p>
+    <p>Original link: <a href='{{ original_url }}' target="_blank">{{ original_url }}</a></p>
     {% else %}
-    <a href='{{ link }}'>{{ link }}</a>
+    <p>{{  error }}</p>
     {% endif %}
 
 </body>
