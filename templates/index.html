@@ -10,31 +10,15 @@
     }
 </style>
 <body>
+    {% if not operation_completed %}
     <form method="post">
         <label for="url">link:</label><br>
         <input type="text" id="url" name="url"><br>
         <input type="submit" value="Submit">
     </form>
-    <table>
-         <thead>
-            <tr>
-               <th>Id</th>
-               <th>Ori url</th>
-               <th>code</th>
-               <th>date</th>
-            </tr>
-         </thead>
+    {% else %}
+    <a href='{{ link }}'>{{ link }}</a>
+    {% endif %}
 
-         <tbody>
-            {% for link in links %}
-               <tr>
-                  <td>{{ link.id }}</td>
-                  <td>{{ link.original_url }}</td>
-                  <td>{{ link.short_code }}</td>
-                  <td>{{ link.creation_date }}</td>
-               </tr>
-            {% endfor %}
-         </tbody>
-      </table>
 </body>
 </html>

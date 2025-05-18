@@ -5,7 +5,7 @@ import re
 import string
 import uuid
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, abort, redirect
 from extensions import db
 from markupsafe import escape
 from models.models import Link
@@ -21,27 +21,29 @@ def form():
     if request.method == 'POST':
         original_url = request.form['url']
         if is_url(original_url):
-            '''
-            link = create_link(original_url)
+            short_code = random_short_code()
+            link = create_link(original_url, short_code)
             add_link_database(link)
-            return render_template("index.html", links = Link.query.all())
-            '''
-            return f'<p>IS A LINK</p>'
+
+
+            new_short_url = generate_shorten_url(short_code)
+            return render_template("index.html", operation_completed=True, link=new_short_url)
         else:
             return f'<p>IS NOT A LINK</p>'
     else:
-        return f'<a href="{generate_shorten_url(random_short_code())}" target="_blank">link</a>'
-        # return render_template("index.html")
+        return render_template("index.html")
 
 
-@app.route('/redirect/<path:shortenurl>')
-def redirect(shortenurl):
-    return f'CODIGO: {escape(shortenurl)}'
-
+@app.route('/r/<path:shortcode>')
+def handle_redirect(shortcode):
+    link = Link.query.filter_by(short_code=f'{escape(shortcode)}').first()
+    if link:
+        return redirect(link.original_url)
+    return abort(404)
 
 
 def generate_shorten_url(code):
-    PAGE_PATH = 'http://127.0.0.1:5000/redirect/'
+    PAGE_PATH = 'http://127.0.0.1:5000/r/'
     shorten_url = PAGE_PATH + code
     return shorten_url
 
@@ -51,10 +53,10 @@ def add_link_database(link:Link):
     db.session.commit()
 
 
-def create_link(url) -> Link:
+def create_link(url, short_code) -> Link:
     return Link(
         original_url = url,
-        short_code = random_short_code(),
+        short_code = short_code,
         creation_date = datetime.datetime.now()
     )
 
