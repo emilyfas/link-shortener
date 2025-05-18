@@ -1,6 +1,9 @@
 import datetime
 import os
+import random
 import re
+import string
+import uuid
 
 from flask import Flask, request, render_template
 from extensions import db
@@ -40,13 +43,10 @@ def create_link(url) -> Link:
     )
 
 
-# TODO: implementar logica para gerar codigos aleatorios
-# Soluçao temporaria
-i = 124
 def random_short_code():
-    global i
-    code = 'abc' + str(i)
-    i += 1
+    letters = ''.join(random.choices(string.ascii_letters, k=4))
+    nums = str(uuid.uuid4().clock_seq_low) + str(uuid.uuid4().clock_seq_hi_variant)
+    code = letters + nums
     return code
 
 
