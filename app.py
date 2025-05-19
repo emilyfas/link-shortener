@@ -33,7 +33,7 @@ def random_short_code():
 def has_link_expired(link):
     creation_time = link.creation_date
     current_time = datetime.datetime.now()
-    return current_time - creation_time > datetime.timedelta(days=1)
+    return current_time - creation_time > datetime.timedelta(hours=1)
 
 
 def generate_shorten_url(code):

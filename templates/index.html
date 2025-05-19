@@ -3,25 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <title>Link Shortener</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+
+
 </head>
-<style>
-    td {
-        padding-right: 10px;
-    }
-</style>
-<body>
+<body class="overflow-hidden">
 
-    <form method="post">
-        <label for="url">link:</label><br>
-        <input type="text" id="url" name="url"><br>
-        <input type="submit" value="Submit">
-    </form>
-    {% if operation_completed %}
-    <p>Shortened link: <a href='{{ new_short_url }}' target="_blank">{{ new_short_url }}</a></p>
-    <p>Original link: <a href='{{ original_url }}' target="_blank">{{ original_url }}</a></p>
-    {% else %}
-    <p>{{  error }}</p>
-    {% endif %}
+    <section class="text-center mt-20 md:m-20" id="form-container">
+        <div class="p-20 pb-8">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl pb-2" style="color: var(--trinary-color);">Encurtador de Links</h1>
+            <p class="text-xs md:text-sm">Transforme URLs longas em links curtos e fáceis de compartilhar.</p>
+        </div>
 
+        <form method="post" class="flex flex-col items-center justify-center gap-6 mt-16">
+            <div class="w-5/6 h-12 sm:h-12 md:h-14 lg:h-16 bg-gray-200 rounded-full px-6 flex items-center shadow focus-within:ring-2 focus-within:ring-(--trinary-color) transition">
+                <input
+                        class="w-full bg-transparent text-black focus:outline-none placeholder-gray-600"
+                    type="text"
+                    id="url"
+                    name="url"
+                    placeholder="Cole o link aqui..." />
+            </div>
+            <button
+                type="submit"
+                onclick="copyLink('{{ new_short_url }}')"
+                class="text-sm md:text-base bg-blue-800 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-full shadow">
+                    Encurtar Link
+            </button>
+        </form>
+        {% if operation_completed %}
+        <section class="flex flex-col items-center justify-center w-full mt-3 md:mt-5 lg:mt-7 text-left">
+            <div class="flex items-center w-4/5 lg:w-4/6">
+                <a
+                    href='{{ new_short_url }}'
+                    target="_blank"
+                    style="background-color: #071126; color: #cecece"
+                    class="flex-1 hidden sm:flex-1 sm:block bg-blue-900 p-2 px-6 mr-3 rounded-full text-base break-words">
+                    {{ new_short_url }}
+                </a>
+                <button
+                    onclick="copyLink('{{ new_short_url }}')"
+                    class="flex flex-col items-center justify-center w-48 sm:w-12 h-12 bg-blue-800 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow
+             block sm:inline mx-auto sm:mx-0">
+                    <img src="{{ url_for('static', filename='images/copy.png') }}" class="h-5 w-5">
+                </button>
+                </div>
+                <div id="copy-popup"
+                    class="hidden opacity-0 mt-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-md opacity-0 transition-opacity duration-300">
+                    Link copiado!
+                </div>
+        </section>
+        {% else %}
+        <p class="mt-6">{{  error }}</p>
+        {% endif %}
+    </section>
+    <section class="fixed bottom-4 left-1/2 transform -translate-x-1/2">
+        <p class="text-center pt-16 text-sm">Links expiram em 24 horas.</p>
+    </section>
+
+    <script>
+        function copyLink(link) {
+            navigator.clipboard.writeText(link).then(() => {
+                const popup = document.getElementById("copy-popup");
+                popup.classList.remove("hidden");
+                setTimeout(() => popup.classList.add("opacity-100"), 10);
+
+                setTimeout(() => {
+                    popup.classList.remove("opacity-100");
+                    setTimeout(() => popup.classList.add("hidden"), 300);
+                }, 2000); // mostra por 2 segundos
+            }).catch(err => console.error("Erro ao copiar:", err));
+        }
+    </script>
 </body>
 </html>
