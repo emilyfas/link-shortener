@@ -3,9 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Error 404</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='link_expired.css') }}">
+
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/link.png') }}">
 </head>
 <body>
-    <p>Your link has expired!</p>
+    <nav class="bg-blue-950">
+      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+          <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+            <div class="hidden sm:ml-6 sm:block">
+              <div class="flex space-x-4">
+                <a href="http://127.0.0.1:5000/" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-blue-900 hover:text-white">Home</a>
+                <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-blue-900 hover:text-white">Sobre</a>
+                <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-blue-900 hover:text-white">Contato</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <section class="flex flex-col items-center justify-center w-full mt-64 text-center">
+        <img src="{{ url_for('static', filename='images/calendar (1).png') }}" class="h-20 w-20">
+        <p class="mt-7">Seu link expirou!</p>
+    </section>
 </body>
 </html>

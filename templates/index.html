@@ -7,61 +7,87 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/link.png') }}">
 
 </head>
 <body class="overflow-hidden">
+    <nav class="bg-blue-950">
+      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+          <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+            <div class="hidden sm:ml-6 sm:block">
+              <div class="flex space-x-4">
+                <a href="http://127.0.0.1:5000/" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-blue-900 hover:text-white">Home</a>
+                <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-blue-900 hover:text-white">Sobre</a>
+                <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-blue-900 hover:text-white">Contato</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
 
-    <section class="text-center mt-20 md:m-20" id="form-container">
-        <div class="p-20 pb-8">
-            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl pb-2" style="color: var(--trinary-color);">Encurtador de Links</h1>
-            <p class="text-xs md:text-sm">Transforme URLs longas em links curtos e fáceis de compartilhar.</p>
+    <section id="form-container" class="mt-20 md:mt-20 text-center px-4">
+      <div class="max-w-7xl mx-auto py-20 pb-8">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold pb-2" style="color: var(--trinary-color);">
+          Encurtador de Links
+        </h1>
+        <p class="text-xs md:text-sm text-gray-500">
+          Transforme URLs longas em links curtos e fáceis de compartilhar.
+        </p>
+      </div>
+
+      <form method="post" class="flex flex-col items-center gap-6 mt-8">
+        <div class="w-5/6 lg:w-4/6 flex items-center px-6 h-12 md:h-14 lg:h-16 bg-gray-300 rounded-full shadow focus-within:ring-2 focus-within:ring-[var(--trinary-color)] transition">
+          <input
+            id="url"
+            name="url"
+            type="text"
+            placeholder="Cole o link aqui..."
+            class="w-full bg-transparent text-black placeholder-gray-800 focus:outline-none"
+          />
         </div>
 
-        <form method="post" class="flex flex-col items-center justify-center gap-6 mt-16">
-            <div class="w-5/6 h-12 sm:h-12 md:h-14 lg:h-16 bg-gray-200 rounded-full px-6 flex items-center shadow focus-within:ring-2 focus-within:ring-(--trinary-color) transition">
-                <input
-                        class="w-full bg-transparent text-black focus:outline-none placeholder-gray-600"
-                    type="text"
-                    id="url"
-                    name="url"
-                    placeholder="Cole o link aqui..." />
-            </div>
+        <button
+          type="submit"
+          onclick="copyLink('{{ new_short_url }}')"
+          class="text-sm md:text-base bg-blue-800 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-full shadow">
+          Encurtar Link
+        </button>
+      </form>
+
+      {% if operation_completed %}
+      <section class="w-full mt-6 md:mt-10 lg:mt-12">
+        <div class="flex items-center justify-center w-full px-4">
+            <div class="flex items-center w-full sm:w-4/5 lg:w-3/5 bg-blue-800 p-2 px-4 rounded-full text-base text-white gap-3">
+            <a
+              href='{{ new_short_url }}'
+              target="_blank"
+              class="flex-1 hidden sm:block break-words truncate">
+              {{ new_short_url }}
+            </a>
+
             <button
-                type="submit"
-                onclick="copyLink('{{ new_short_url }}')"
-                class="text-sm md:text-base bg-blue-800 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-full shadow">
-                    Encurtar Link
+              onclick="copyLink('{{ new_short_url }}')"
+              class="flex items-center justify-center w-48 sm:w-12 h-12 bg-blue-800 hover:bg-blue-700 text-white rounded-full shadow mx-auto sm:mx-0">
+              <img src="{{ url_for('static', filename='images/copy.png') }}" class="h-5 w-5" alt="Copiar">
             </button>
-        </form>
-        {% if operation_completed %}
-        <section class="flex flex-col items-center justify-center w-full mt-3 md:mt-5 lg:mt-7 text-left">
-            <div class="flex items-center w-4/5 lg:w-4/6">
-                <a
-                    href='{{ new_short_url }}'
-                    target="_blank"
-                    style="background-color: #071126; color: #cecece"
-                    class="flex-1 hidden sm:flex-1 sm:block bg-blue-900 p-2 px-6 mr-3 rounded-full text-base break-words">
-                    {{ new_short_url }}
-                </a>
-                <button
-                    onclick="copyLink('{{ new_short_url }}')"
-                    class="flex flex-col items-center justify-center w-48 sm:w-12 h-12 bg-blue-800 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow
-             block sm:inline mx-auto sm:mx-0">
-                    <img src="{{ url_for('static', filename='images/copy.png') }}" class="h-5 w-5">
-                </button>
-                </div>
-                <div id="copy-popup"
-                    class="hidden opacity-0 mt-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-md opacity-0 transition-opacity duration-300">
-                    Link copiado!
-                </div>
-        </section>
-        {% else %}
-        <p class="mt-6">{{  error }}</p>
-        {% endif %}
+          </div>
+        </div>
+
+        <div
+          id="copy-popup"
+          class="hidden opacity-0 mt-4 text-sm bg-green-600 text-white px-4 py-2 rounded-lg shadow-md transition-opacity duration-300 text-center">
+          Link copiado!
+        </div>
+      </section>
+      {% else %}
+        <p class="mt-6 text-red-600">{{ error }}</p>
+      {% endif %}
     </section>
+
     <section class="fixed bottom-4 left-1/2 transform -translate-x-1/2">
-        <p class="text-center pt-16 text-sm">Links expiram em 24 horas.</p>
+      <p class="text-center text-sm text-gray-500">Links expiram em 24 horas.</p>
     </section>
 
     <script>
