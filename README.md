@@ -22,6 +22,45 @@ Demonstração
 
 **7.** Armazenamento usando SQLite
 
+## Estrutura do Projeto
+
+```
+
+link-shortener/
+│
+├── .venv/                  # Ambiente virtual (não versionado)
+├── instance/
+│   └── database.db         # Banco de dados SQLite
+│
+├── models/
+│   └── models.py           # Modelo de dados para os links
+│
+├── static/
+│   ├── images/             # Imagens estáticas (logo, ícone, banner)
+│   ├── scripts/
+│   │   └── script.js       # Script JS (tema escuro/claro)
+│   └── styles/
+│       └── style.css       # Estilos personalizados
+│
+├── templates/
+│   ├── base.html           # Template base com navbar e footer
+│   ├── index.html          # Página principal
+│   ├── about.html          # Página "Sobre o Projeto"
+│   ├── contact.html        # Página de contato
+│   ├── link_expired.html   # Página de link expirado
+│   └── 404.html            # Página de erro 404
+│
+├── app.py                 # Arquivo principal da aplicação Flask
+├── extensions.py          # Inicialização do SQLAlchemy
+├── requirements.txt       # Dependências do projeto
+└── LICENSE                # Licença MIT
+
+```
+
+# Como funciona
+
+
+
 
 
 
