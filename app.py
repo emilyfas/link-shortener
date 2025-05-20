@@ -5,6 +5,7 @@ import re
 import string
 import uuid
 
+import validators
 from flask import Flask, request, render_template, abort, redirect
 from extensions import db
 from models.models import Link
@@ -16,10 +17,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
 def is_url(txt) -> bool:
-    if txt is None or not isinstance(txt, str):
-        return False
-    pattern = r"^(https?://)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(/[\w\-./?%&=]*)?$"
-    return re.match(pattern, txt) is not None
+    return validators.url(txt)
 
 
 def random_short_code():
