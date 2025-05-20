@@ -1,11 +1,15 @@
 # Encurtador de Links
+
 Um encurtador de URLs simples e elegante feito com Flask, permitindo transformar links longos em URLs curtas, ideais para compartilhamento. O projeto inclui uma interface moderna com suporte a temas claro/escuro, além de funcionalidades úteis como expiração automática dos links após 7 dias.
 
-## 📸 Demonstração
+[![Deploy on Render](https://img.shields.io/badge/Deploy-Render-blueviolet?logo=render&logoColor=white)](https://l1nksh0rtef.onrender.com)
+[![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-2.3-lightgrey?logo=flask)](https://flask.palletsprojects.com/)
+[![SQLite](https://img.shields.io/badge/Database-SQLite-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![TailwindCSS](https://img.shields.io/badge/Styling-TailwindCSS-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-![Demonstração troca de tema](static/images/ezgif-15b5357eb86f3f.gif)
-
-Demonstração
+#
 
 ## Funcionalidades
 **1.** Encurta links longos
@@ -21,6 +25,10 @@ Demonstração
 **6.** Interface estilizada com TailwindCSS
 
 **7.** Armazenamento usando SQLite
+
+## 📸 Demonstração
+
+<img src="static/images/ezgif-15b5357eb86f3f.gif" width="500"/><img src="static/images/ezgif-191ffd586b0ef4.gif" width="500"/><img src="static/images/ezgif-1edcc7160960ec.gif" width="500"/><img src="static/images/ezgif-3e6181c4cb9930.gif" width="500"/>
 
 ## Estrutura do Projeto
 
