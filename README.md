@@ -97,6 +97,7 @@ Acesse em: http://localhost:5000
 ```
 
 ## Tecnologias Utilizadas
+
 - Python 3
 
 - Flask
@@ -107,9 +108,14 @@ Acesse em: http://localhost:5000
 
 - JavaScript
 
+## Licença
 
+Distribuído sob a licença MIT. Veja o arquivo `LICENSE` para mais informações.
 
+## Autora  
 
-
-
+**Emilly Fernandes**   
+Estudante de Ciência da Computação   
+Projeto desenvolvido para portfólio pessoal.   
+[LinkedIn](https://www.linkedin.com/in/emilly-fernandes) | [Portfólio](https://emilyfas.github.io/meu-portfolio/)
 
