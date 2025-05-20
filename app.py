@@ -16,7 +16,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 
 def is_url(txt) -> bool:
-    if not txt or not isinstance(txt, str):
+    if txt is None or not isinstance(txt, str):
         return False
     pattern = r'^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$'
     return re.match(pattern, txt) is not None
