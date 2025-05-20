@@ -57,7 +57,56 @@ link-shortener/
 
 ```
 
-# Como funciona
+## Como funciona
+
+- O usuário insere uma URL na página inicial.
+
+- O sistema verifica se é um link válido.
+
+- Um código aleatório é gerado (combinação de letras e UUID).
+
+- O link encurtado é armazenado no banco de dados com a data de criação.
+
+- Ao acessar o link curto, o usuário é redirecionado — caso o link tenha expirado (após 7 dias), uma página especial é exibida.
+
+## Instalação
+
+**1.** Clone o repositório:
+
+```
+git clone https://github.com/emilyfas/link-shortener.git
+cd link-shortener
+```
+
+**2.** Crie e ative o ambiente virtual:
+```
+python -m venv .venv
+source .venv/bin/activate  # Linux/Mac
+.venv\Scripts\activate     # Windows
+```
+
+**3.** Instale as dependências:
+```
+pip install -r requirements.txt
+```
+
+**4.** Execute a aplicação:
+```
+flask run
+Acesse em: http://localhost:5000
+```
+
+## Tecnologias Utilizadas
+- Python 3
+
+- Flask
+
+- SQLite + SQLAlchemy
+
+- HTML + TailwindCSS
+
+- JavaScript
+
 
 
 
