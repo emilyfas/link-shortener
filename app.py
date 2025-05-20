@@ -18,7 +18,7 @@ db.init_app(app)
 def is_url(txt) -> bool:
     if txt is None or not isinstance(txt, str):
         return False
-    pattern = r'^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$'
+    pattern = r"^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?$"
     return re.match(pattern, txt) is not None
 
 
