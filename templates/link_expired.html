@@ -1,32 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Error 404</title>
+{% extends "base.html" %} {% block content %}
+<style>
+  @keyframes bounce-swing {
 
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/link.png') }}">
-</head>
-<body>
-    <nav class="bg-blue-950">
-      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div class="relative flex h-16 items-center justify-between">
-          <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div class="hidden sm:ml-6 sm:block">
-              <div class="flex space-x-4">
-                <a href="http://127.0.0.1:5000/" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-blue-900 hover:text-white">Home</a>
-                <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-blue-900 hover:text-white">Sobre</a>
-                <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-blue-900 hover:text-white">Contato</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-    <section class="flex flex-col items-center justify-center w-full mt-64 text-center">
-        <img src="{{ url_for('static', filename='images/calendar (1).png') }}" class="h-20 w-20">
-        <p class="mt-7">Seu link expirou!</p>
-    </section>
-</body>
-</html>
+    0%,
+    100% {
+      transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+
+    15% {
+      transform: translate(-10px, -10px) rotate(-8deg) scale(1.05);
+    }
+
+    30% {
+      transform: translate(10px, -20px) rotate(8deg) scale(1.1);
+    }
+
+    50% {
+      transform: translate(-12px, -8px) rotate(-6deg) scale(1.03);
+    }
+
+    70% {
+      transform: translate(12px, -14px) rotate(6deg) scale(1.08);
+    }
+
+    85% {
+      transform: translate(-8px, -6px) rotate(-3deg) scale(1.02);
+    }
+  }
+
+  .super-bouncy {
+    animation: bounce-swing 1.8s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    transform-origin: center;
+    display: inline-block;
+  }
+</style>
+<section class="flex flex-col items-center justify-center text-center mt-48 mb-96 animate-fade-in">
+  <img src="{{ url_for('static', filename='images/calendar (1).png') }}" class="h-20 w-20 super-bouncy" />
+  <p class="mt-7 text-white">Seu link expirou!</p>
+</section>
+{% endblock %}

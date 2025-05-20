@@ -33,7 +33,7 @@ def random_short_code():
 def has_link_expired(link):
     creation_time = link.creation_date
     current_time = datetime.datetime.now()
-    return current_time - creation_time > datetime.timedelta(hours=1)
+    return current_time - creation_time > datetime.timedelta(days=7)
 
 
 def generate_shorten_url(code):
@@ -82,6 +82,19 @@ def handle_redirect(shortcode):
         return redirect(link.original_url)
     return abort(404)
 
+
+@app.route('/sobre')
+def about_page():
+    return render_template("about.html")
+
+
+@app.route('/contato')
+def contact_page():
+    return render_template("contact.html")
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 with app.app_context():
     db.create_all()

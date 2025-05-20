@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Link Shortener - Sobre{% endblock %}
+
+{% block content %}
+<section class="max-w-4xl mx-auto px-4 py-16 mb-20 mt-4 animate-fade-in">
+  <h1 class="text-4xl md:text-5xl font-bold mb-6 text-center" style="color: var(--trinary-color);">
+    Sobre o Encurtador de Links
+  </h1>
+
+  <p class="text-base md:text-lg mb-6 text-center text-white">
+    Este projeto foi desenvolvido com o objetivo de facilitar o compartilhamento de URLs longas, transformando-as em
+    links curtos e fáceis de usar. Ideal para redes sociais, mensagens ou qualquer situação onde uma URL mais limpa é
+    desejada.
+  </p>
+
+  <h2 class="text-2xl font-semibold mt-10 mb-3 text-white">Como usar:</h2>
+  <ul class="list-disc list-inside text-base md:text-lg space-y-2 mb-6 text-gray-200">
+    <li>Cole o link original no campo de entrada da página principal.</li>
+    <li>Clique no botão "Encurtar Link".</li>
+    <li>O link encurtado aparecerá abaixo. Você pode clicar no botão de copiar para salvar o link.</li>
+    <li>Compartilhe o link encurtado com outras pessoas!</li>
+  </ul>
+
+  <div class="mt-8 p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 rounded shadow mt-12">
+    <strong>Atenção:</strong> Todos os links encurtados expiram automaticamente após <span class="font-semibold">7
+      dias</span>.
+  </div>
+
+
+</section>
+{% endblock %}

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta property="og:title" content="Encurtador de Links">
+  <meta property="og:description" content="Transforme URLs longas em links curtos e simples.">
+  <meta property="og:image" content="{{ url_for('static', filename='images/share-banner.png') }}">
+  <meta property="og:url" content="{{ request.url }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>{% block title %}Link Shortener{% endblock %}</title>
+
+
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/link.png') }}">
+  <style>
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-in {
+      animation: fade-in 0.6s ease-out forwards;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    }
+  </script>
+</head>
+
+<body class="pt-16 bg-sky-600 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+
+  <nav class="fixed w-full top-0 z-50 bg-sky-600/90 dark:bg-gray-900/90">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center justify-between ">
+        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden ">
+          <button id="menu-button" type="button"
+            class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-1 focus:ring-white focus:outline-hidden focus:ring-inset"
+            aria-controls="mobile-menu" aria-expanded="false">
+            <span class="absolute -inset-0.5"></span>
+            <span class="sr-only">Open main menu</span>
+            <svg id="menu-open-icon" class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" aria-hidden="true" data-slot="icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+            <svg id="menu-close-icon" class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" aria-hidden="true" data-slot="icon">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+          <div class="flex shrink-0 items-center">
+            <img class="h-8 w-auto" src="{{ url_for('static', filename='images/logo.png') }}" alt="Emilly Fernandes">
+          </div>
+          <div class="hidden sm:ml-6 sm:block">
+            <div class="flex space-x-4">
+              <a href="/"
+                class="rounded-md px-3 py-2 text-sm font-medium text-white hover:text-gray-200 dark:text-gray-300
+                dark:hover:bg-blue-900 hover:bg-blue-500 dark:hover:text-white hover:shadow transition duration-700 ease-in-out">Inicio</a>
+              <a href="/sobre"
+                class="rounded-md px-3 py-2 text-sm font-medium text-white hover:text-gray-200 dark:text-gray-300
+                dark:hover:bg-blue-900 hover:bg-blue-500 dark:hover:text-white hover:shadow transition duration-700 ease-in-out">Sobre</a>
+              <a href="/contato"
+                class="rounded-md px-3 py-2 text-sm font-medium text-white hover:text-gray-200 dark:text-gray-300
+                dark:hover:bg-blue-900 hover:bg-blue-500 dark:hover:text-white hover:shadow transition duration-700 ease-in-out">Contato</a>
+            </div>
+          </div>
+        </div>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <div class="relative ml-3">
+            <div>
+              <div class="relative flex items-center justify-center">
+                <button id="toggle-theme"
+                  class="relative w-16 h-8 bg-yellow-400 dark:bg-blue-900 rounded-full transition-colors duration-500 flex items-center px-1 hover:shadow-lg active:scale-95">
+                  <div
+                    class="dot w-6 h-6 bg-white rounded-full shadow-md transform transition-all duration-500 flex items-center justify-center dark:translate-x-8">
+                    <svg class="w-4 h-4 text-yellow-400 block dark:hidden" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                    <svg class="w-4 h-4 text-violet-700 hidden dark:block" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z">
+                      </path>
+                    </svg>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sm:hidden hidden" id="mobile-menu">
+      <div class="space-y-1 px-2 pt-2 pb-3 bg-sky-600 dark:bg-gray-900">
+        <a href="/"
+          class="block rounded-md px-3 py-2 text-base font-medium text-white hover:text-gray-200 dark:text-gray-300
+                dark:hover:bg-blue-900 hover:bg-blue-500 dark:hover:text-white hover:shadow transition duration-700 ease-in-out">Inicio</a>
+        <a href="/sobre"
+          class="block rounded-md px-3 py-2 text-base font-medium text-white hover:text-gray-200 dark:text-gray-300
+                dark:hover:bg-blue-900 hover:bg-blue-500 dark:hover:text-white hover:shadow transition duration-700 ease-in-out">Sobre</a>
+        <a href="/contato"
+          class="block rounded-md px-3 py-2 text-base font-medium text-white hover:text-gray-200 dark:text-gray-300
+                dark:hover:bg-blue-900 hover:bg-blue-500 dark:hover:text-white hover:shadow transition duration-700 ease-in-out">Contato</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="flex flex-col justify-center bg-gray-300 dark:bg-gray-800 p-16 text-center text-sm animate-fade-in">
+    <p class=" text-gray-800 dark:text-white">© <span id="ano-footer"></span> Encurtador de Links — Desenvolvido por
+      Emilly Fernandes</p>
+    <div class="flex justify-center space-x-4 mt-6">
+      <a href="/" class="hover:underline">Inicio</a>
+      <a href="/sobre" class="hover:underline">Sobre</a>
+      <a href="/contato" class="hover:underline">Contato</a>
+    </div>
+    <div class="flex justify-center items-center space-x-4 mt-6">
+      <a href="https://github.com/emilyfas/link-shortener" target="_blank" aria-label="GitHub Repositorio"
+        class="flex justify-center items-center gap-4">
+        <svg class="w-6 h-6 hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 48 48" id="Layer_2"
+          data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" data-darkreader-inline-fill=""
+          style="--darkreader-inline-fill: var(--darkreader-background-000000, #1d1f20); --darkreader-inline-stroke: var(--darkreader-text-000000, #e3e1de);"
+          stroke="#000000" data-darkreader-inline-stroke="">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <defs>
+              <style>
+                .cls-1 {
+                  fill: none;
+                  stroke: #ffffff;
+                  stroke-linecap: round;
+                  stroke-linejoin: round;
+                  fill-rule: evenodd;
+                }
+              </style>
+            </defs>
+            <path class="cls-1"
+              d="M24,2.5a21.5,21.5,0,0,0-6.8,41.9c1.08.2,1.47-.46,1.47-1s0-1.86,0-3.65c-6,1.3-7.24-2.88-7.24-2.88A5.7,5.7,0,0,0,9,33.68c-1.95-1.33.15-1.31.15-1.31a4.52,4.52,0,0,1,3.29,2.22c1.92,3.29,5,2.34,6.26,1.79a4.61,4.61,0,0,1,1.37-2.88c-4.78-.54-9.8-2.38-9.8-10.62a8.29,8.29,0,0,1,2.22-5.77,7.68,7.68,0,0,1,.21-5.69s1.8-.58,5.91,2.2a20.46,20.46,0,0,1,10.76,0c4.11-2.78,5.91-2.2,5.91-2.2a7.74,7.74,0,0,1,.21,5.69,8.28,8.28,0,0,1,2.21,5.77c0,8.26-5,10.07-9.81,10.61a5.12,5.12,0,0,1,1.46,4c0,2.87,0,5.19,0,5.9s.39,1.24,1.48,1A21.5,21.5,0,0,0,24,2.5">
+            </path>
+          </g>
+        </svg>
+        <span class="hover:underline">
+          Contribuições são bem vindas.
+        </span>
+      </a>
+
+    </div>
+
+  </footer>
+
+
+  {% block scripts %}{% endblock %}
+  <script src="{{ url_for('static', filename='scripts/script.js') }}"></script>
+</body>
+
+</html>

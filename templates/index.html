@@ -1,108 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Link Shortener</title>
+{% extends "base.html" %} {% block title %}Link Shortener - Inicio{% endblock %}
+{% block content %}
+<section class="relative pb-64 pt-8">
+  <section id="form-container" class="text-center px-4">
+    <div class="max-w-7xl mx-auto py-20 pb-8">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold pb-2 animate-fade-in"
+        style="color: var(--trinary-color)">
+        Encurtador de Links
+      </h1>
+      <p class="text-xs md:text-sm text-white dark:text-gray-500 animate-fade-in">
+        Transforme URLs longas em links curtos e fáceis de compartilhar.
+      </p>
+    </div>
 
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/link.png') }}">
-
-</head>
-<body class="overflow-hidden">
-    <nav class="bg-blue-950">
-      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-        <div class="relative flex h-16 items-center justify-between">
-          <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-            <div class="hidden sm:ml-6 sm:block">
-              <div class="flex space-x-4">
-                <a href="http://127.0.0.1:5000/" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-blue-900 hover:text-white">Home</a>
-                <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-blue-900 hover:text-white">Sobre</a>
-                <a href="#" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-blue-900 hover:text-white">Contato</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-
-    <section id="form-container" class="mt-20 md:mt-20 text-center px-4">
-      <div class="max-w-7xl mx-auto py-20 pb-8">
-        <h1 class="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold pb-2" style="color: var(--trinary-color);">
-          Encurtador de Links
-        </h1>
-        <p class="text-xs md:text-sm text-gray-500">
-          Transforme URLs longas em links curtos e fáceis de compartilhar.
-        </p>
+    <form method="post" class="flex flex-col items-center gap-6 mt-8 animate-fade-in">
+      <div
+        class="w-5/6 lg:w-4/6 flex items-center px-6 h-12 md:h-14 lg:h-16 bg-gray-300 rounded-full shadow focus-within:ring-2 focus-within:ring-[var(--trinary-color)] transition">
+        <input id="url" name="url" type="text" placeholder="Cole o link aqui..."
+          class="w-full bg-transparent text-black placeholder-gray-500 dark:placeholder-gray-800 focus:outline-none" />
       </div>
 
-      <form method="post" class="flex flex-col items-center gap-6 mt-8">
-        <div class="w-5/6 lg:w-4/6 flex items-center px-6 h-12 md:h-14 lg:h-16 bg-gray-300 rounded-full shadow focus-within:ring-2 focus-within:ring-[var(--trinary-color)] transition">
-          <input
-            id="url"
-            name="url"
-            type="text"
-            placeholder="Cole o link aqui..."
-            class="w-full bg-transparent text-black placeholder-gray-800 focus:outline-none"
-          />
-        </div>
+      <button id="shorten-btn" type="submit"
+        class="flex items-center justify-center gap-2 text-sm md:text-base bg-blue-500 hover:bg-blue-400 dark:bg-blue-900 dark:hover:bg-blue-950 font-semibold py-2 px-6 rounded-full shadow transition duration-300 ease-in-out">
+        <span id="btn-text" class="font-extralight text-white">Encurtar Link</span>
+        <div id="btn-spinner"
+          class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin hidden"></div>
+      </button>
+    </form>
 
-        <button
-          type="submit"
-          onclick="copyLink('{{ new_short_url }}')"
-          class="text-sm md:text-base bg-blue-800 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-full shadow">
-          Encurtar Link
-        </button>
-      </form>
+    {% if operation_completed %}
 
-      {% if operation_completed %}
-      <section class="w-full mt-6 md:mt-10 lg:mt-12">
-        <div class="flex items-center justify-center w-full px-4">
-            <div class="flex items-center w-full sm:w-4/5 lg:w-3/5 bg-blue-800 p-2 px-4 rounded-full text-base text-white gap-3">
-            <a
-              href='{{ new_short_url }}'
-              target="_blank"
-              class="flex-1 hidden sm:block break-words truncate">
-              {{ new_short_url }}
-            </a>
-
-            <button
-              onclick="copyLink('{{ new_short_url }}')"
-              class="flex items-center justify-center w-48 sm:w-12 h-12 bg-blue-800 hover:bg-blue-700 text-white rounded-full shadow mx-auto sm:mx-0">
-              <img src="{{ url_for('static', filename='images/copy.png') }}" class="h-5 w-5" alt="Copiar">
-            </button>
-          </div>
-        </div>
-
+    <section class="w-full mt-6 md:mt-10 lg:mt-12">
+      <div class="flex items-center justify-center w-full px-4">
         <div
-          id="copy-popup"
-          class="hidden opacity-0 mt-4 text-sm bg-green-600 text-white px-4 py-2 rounded-lg shadow-md transition-opacity duration-300 text-center">
-          Link copiado!
+          class="flex items-center w-full sm:w-4/5 lg:w-3/5 bg-blue-500 dark:bg-blue-900 p-2 px-4 rounded-full text-base text-white gap-3">
+          <a href="{{ new_short_url }}" target="_blank" class="flex-1 hidden sm:block break-words truncate">
+            {{ new_short_url }}
+          </a>
+
+          <button onclick="copyLink('{{ new_short_url }}')"
+            class="flex items-center justify-center w-48 sm:w-12 h-12 bg-blue-500 hover:bg-blue-400 dark:bg-blue-900 dark:hover:bg-blue-950text-white rounded-full shadow mx-auto sm:mx-0">
+            <img src="{{ url_for('static', filename='images/copy.png') }}" class="h-5 w-5" alt="Copiar" />
+          </button>
         </div>
-      </section>
-      {% else %}
-        <p class="mt-6 text-red-600">{{ error }}</p>
-      {% endif %}
+      </div>
+
+      <div id="copy-popup"
+        class="hidden opacity-0 mt-4 text-sm bg-green-600 text-white px-4 py-2 rounded-lg shadow-md transition-opacity duration-300 text-center">
+        Link copiado!
+      </div>
     </section>
+    {% else %}
+    <p class="mt-6 text-red-600 font-semibold" role="alert">{{ error }}</p>
+    {% endif %}
+  </section>
+  <section class="absolute fixed bottom-4 pb-12 left-1/2 transform -translate-x-1/2">
+    <p class="text-center text-sm text-white dark:text-gray-500 animate-fade-in">
+      Links expiram em 7 dias.
+    </p>
+  </section>
+</section>
+{% endblock %} {% block scripts %}
+<script>
+  function copyLink(link) {
+    navigator.clipboard
+      .writeText(link)
+      .then(() => {
+        const popup = document.getElementById("copy-popup");
+        popup.classList.remove("hidden");
+        setTimeout(() => popup.classList.add("opacity-100"), 10);
 
-    <section class="fixed bottom-4 left-1/2 transform -translate-x-1/2">
-      <p class="text-center text-sm text-gray-500">Links expiram em 24 horas.</p>
-    </section>
+        setTimeout(() => {
+          popup.classList.remove("opacity-100");
+          setTimeout(() => popup.classList.add("hidden"), 300);
+        }, 2000);
+      })
+      .catch((err) => console.error("Erro ao copiar:", err));
+  }
 
-    <script>
-        function copyLink(link) {
-            navigator.clipboard.writeText(link).then(() => {
-                const popup = document.getElementById("copy-popup");
-                popup.classList.remove("hidden");
-                setTimeout(() => popup.classList.add("opacity-100"), 10);
+  const form = document.querySelector("form");
+  const shortenBtn = document.getElementById("shorten-btn");
+  const btnText = document.getElementById("btn-text");
+  const btnSpinner = document.getElementById("btn-spinner");
 
-                setTimeout(() => {
-                    popup.classList.remove("opacity-100");
-                    setTimeout(() => popup.classList.add("hidden"), 300);
-                }, 2000); // mostra por 2 segundos
-            }).catch(err => console.error("Erro ao copiar:", err));
-        }
-    </script>
-</body>
-</html>
+  form.addEventListener("submit", function () {
+    shortenBtn.disabled = true;
+    btnText.textContent = "Processando...";
+    btnSpinner.classList.remove("hidden");
+  });
+</script>
+{% endblock %}
