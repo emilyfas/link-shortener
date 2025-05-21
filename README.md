@@ -28,7 +28,7 @@ Um encurtador de URLs simples e elegante feito com Flask, permitindo transformar
 
 ## 📸 Demonstração
 
-<img src="static/images/ezgif-15b5357eb86f3f.gif" width="500"/><img src="static/images/ezgif-191ffd586b0ef4.gif" width="500"/><img src="static/images/ezgif-1edcc7160960ec.gif" width="500"/><img src="static/images/ezgif-3e6181c4cb9930.gif" width="500"/>
+<img src="static/images/ezgif-15b5357eb86f3f.gif" width="370"/><img src="static/images/ezgif-191ffd586b0ef4.gif" width="370"/><img src="static/images/ezgif-1edcc7160960ec.gif" width="370"/><img src="static/images/ezgif-3e6181c4cb9930.gif" width="370"/>
 
 ## Estrutura do Projeto
 
